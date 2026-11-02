@@ -118,17 +118,17 @@ HousePricePrediction/
 ### Home
 ![Home](screenshots/home.png)
 
-### House price prediction
-![House price prediction](screenshots/house price prediction.png)
+### House Price Prediction
+![House Price Prediction](screenshots/prediction.png)
 
 ### Insights
 ![Insights](screenshots/insights.png)
 
-### Prediction report PDF
-![Prediction report PDF](screenshots/prediction report pdf.png)
+### Prediction Report PDF
+![Prediction Report PDF](screenshots/report.png)
 
 ### What-if Analysis
-![What-if Analysis](screenshots/what-if analysis.png)
+![What-if Analysis](screenshots/what-if.png)
 
 ## Author
 
