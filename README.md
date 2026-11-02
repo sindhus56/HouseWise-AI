@@ -8,6 +8,8 @@ The project combines a trained regression model with an interactive Streamlit in
 
 ---
 
+**Live demo:** add a live demo link
+
 ## 🚀 Features
 
 - 🏠 House price prediction
@@ -94,6 +96,13 @@ The project includes:
 ```text
 HousePricePrediction/
 │
+├── screenshots/
+│   ├── home.png
+│   ├── house price prediction.png
+│   ├── insights.png
+│   ├── prediction report pdf.png
+│   └── what-if analysis.png
+│
 ├── app.py
 ├── data.csv
 ├── feature_importance.csv
@@ -102,3 +111,25 @@ HousePricePrediction/
 ├── HouseWise_AI_Prediction_Report.pdf
 ├── requirements.txt
 └── README.md
+
+
+## Screenshots
+
+### Home
+![Home](screenshots/home.png)
+
+### House price prediction
+![House price prediction](screenshots/house price prediction.png)
+
+### Insights
+![Insights](screenshots/insights.png)
+
+### Prediction report PDF
+![Prediction report PDF](screenshots/prediction report pdf.png)
+
+### What-if Analysis
+![What-if Analysis](screenshots/what-if analysis.png)
+
+## Author
+
+Developed by **Sindhu S**

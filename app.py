@@ -1966,14 +1966,16 @@ if predict_button and input_valid:
 
     for column in X.columns:
 
-        if X[column].dtype == "object":
-
-            input_data[column] = X[column].mode()[0]
-
-        else:
-
+        if pd.api.types.is_numeric_dtype(X[column]):
             input_data[column] = X[column].median()
 
+        else:
+            mode_value = X[column].mode()
+
+            if not mode_value.empty:
+                input_data[column] = mode_value.iloc[0]
+            else:
+                input_data[column] = "Unknown"
 
     input_df = pd.DataFrame(
         [input_data]
