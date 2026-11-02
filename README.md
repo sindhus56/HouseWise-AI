@@ -8,7 +8,13 @@ The project combines a trained regression model with an interactive Streamlit in
 
 ---
 
-**Live demo:** add a live demo link
+## 🌐 Live Demo
+
+🚀 **Try HouseWise AI:** [Launch Application](https://housewise-ai-sindhu.streamlit.app/)
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://housewise-ai-sindhu.streamlit.app/)
+
+---
 
 ## 🚀 Features
 
@@ -98,10 +104,10 @@ HousePricePrediction/
 │
 ├── screenshots/
 │   ├── home.png
-│   ├── house price prediction.png
+│   ├── prediction.png
 │   ├── insights.png
-│   ├── prediction report pdf.png
-│   └── what-if analysis.png
+│   ├── report.png
+│   └── what-if.png
 │
 ├── app.py
 ├── data.csv
@@ -113,7 +119,9 @@ HousePricePrediction/
 └── README.md
 ```
 
-## Screenshots
+---
+
+## 📸 Screenshots
 
 ### Home
 ![Home](screenshots/home.png)
@@ -130,6 +138,8 @@ HousePricePrediction/
 ### What-if Analysis
 ![What-if Analysis](screenshots/what-if.png)
 
-## Author
+---
+
+## 👩‍💻 Author
 
 Developed by **Sindhu S**
