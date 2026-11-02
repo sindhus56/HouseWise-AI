@@ -111,7 +111,7 @@ HousePricePrediction/
 ├── HouseWise_AI_Prediction_Report.pdf
 ├── requirements.txt
 └── README.md
-
+```
 
 ## Screenshots
 
