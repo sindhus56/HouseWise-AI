@@ -133,10 +133,13 @@ HousePricePrediction/
 ![What-if Analysis](screenshots/what-if.png)
 
 ### Prediction Report PDF
-![Prediction Report PDF](screenshots/report.png)
+
+[Download a sample PDF report](samples/sample_report.pdf)
 
 ---
 
 ## 👩‍💻 Author
 
 Developed by **Sindhu S**
+
+[GitHub](https://github.com/sindhus56) · [LinkedIn](https://www.linkedin.com/in/sindhu-s56/) · sindhus5656@gmail.com
