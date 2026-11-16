@@ -4,11 +4,14 @@ import pandas as pd
 import plotly.express as px
 from io import BytesIO
 from datetime import datetime
+from pathlib import Path
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     SimpleDocTemplate,
     Paragraph,
@@ -1368,13 +1371,13 @@ elif st.session_state.page == "Insights":
     with insight3:
         st.metric(
             "💰 Average Price",
-            f"${df['SalePrice'].mean():,.0f}"
+            f"₹{df['SalePrice'].mean():,.0f}"
         )
 
     with insight4:
         st.metric(
             "🏆 Maximum Price",
-            f"${df['SalePrice'].max():,.0f}"
+            f"₹{df['SalePrice'].max():,.0f}"
         )
 
     # =====================================================
@@ -1396,10 +1399,10 @@ elif st.session_state.page == "Insights":
         st.metric("R² Score", "0.6428")
 
     with perf2:
-        st.metric("MAE", "$20,468")
+        st.metric("MAE", "20,468")
 
     with perf3:
-        st.metric("RMSE", "$52,347")
+        st.metric("RMSE", "52,347")
 
     with perf4:
         st.metric("MSE", "2.74B")
@@ -2089,7 +2092,7 @@ if "prediction" in st.session_state:
     🏠 Estimated House Price
     </div>
     <div class="prediction-price">
-    ${prediction:,.2f}
+    ₹{prediction:,.2f}
     </div>
     <div class="prediction-description">
     Estimated using the trained Machine Learning model.
@@ -2113,7 +2116,7 @@ if "prediction" in st.session_state:
                 💰 Estimated Price Range
             </div>
             <div class="prediction-price">
-                ${lower_price:,.0f} – ${upper_price:,.0f}
+                ₹{lower_price:,.0f} – ₹{upper_price:,.0f}
             </div>
             <div class="prediction-description">
                 Approximate range based on the model prediction.
@@ -2240,6 +2243,18 @@ if "prediction" in st.session_state:
     )
 
     def create_prediction_pdf():
+        # Register Unicode fonts so the Indian Rupee symbol (₹) renders in the PDF.
+        font_dir = Path(__file__).parent / "fonts"
+        pdfmetrics.registerFont(TTFont("DejaVu", str(font_dir / "DejaVuSans.ttf")))
+        pdfmetrics.registerFont(TTFont("DejaVu-Bold", str(font_dir / "DejaVuSans-Bold.ttf")))
+        pdfmetrics.registerFontFamily(
+            "DejaVu",
+            normal="DejaVu",
+            bold="DejaVu-Bold",
+            italic="DejaVu",
+            boldItalic="DejaVu-Bold"
+        )
+
         buffer = BytesIO()
 
         doc = SimpleDocTemplate(
@@ -2256,6 +2271,7 @@ if "prediction" in st.session_state:
         title_style = ParagraphStyle(
             "TitleStyle",
             parent=styles["Title"],
+            fontName="DejaVu",
             fontSize=24,
             leading=28,
             alignment=TA_CENTER,
@@ -2266,6 +2282,7 @@ if "prediction" in st.session_state:
         subtitle_style = ParagraphStyle(
             "SubtitleStyle",
             parent=styles["Normal"],
+            fontName="DejaVu",
             fontSize=11,
             alignment=TA_CENTER,
             textColor=colors.HexColor("#64748b"),
@@ -2275,6 +2292,7 @@ if "prediction" in st.session_state:
         heading_style = ParagraphStyle(
             "HeadingStyle",
             parent=styles["Heading2"],
+            fontName="DejaVu",
             fontSize=14,
             textColor=colors.HexColor("#312e81"),
             spaceBefore=12,
@@ -2284,6 +2302,7 @@ if "prediction" in st.session_state:
         normal_style = ParagraphStyle(
             "NormalStyle",
             parent=styles["Normal"],
+            fontName="DejaVu",
             fontSize=10,
             leading=15,
             textColor=colors.HexColor("#334155")
@@ -2292,6 +2311,7 @@ if "prediction" in st.session_state:
         price_style = ParagraphStyle(
             "PriceStyle",
             parent=styles["Heading1"],
+            fontName="DejaVu",
             fontSize=25,
             alignment=TA_CENTER,
             textColor=colors.HexColor("#047857"),
@@ -2306,24 +2326,15 @@ if "prediction" in st.session_state:
         # -----------------------------------------------------
 
         story.append(
-            Paragraph("🏠 HouseWise AI", title_style)
+            Paragraph("HouseWise AI", title_style)
         )
-
         story.append(
             Paragraph(
                 "Smart House Price Prediction",
                 subtitle_style
             )
         )
-
-        story.append(
-            Paragraph(
-                "Machine Learning Powered Property Valuation",
-                subtitle_style
-            )
-        )
-
-        story.append(Spacer(1, 8))
+        story.append(Spacer(1, 5))
 
         # -----------------------------------------------------
         # PREDICTION RESULT
@@ -2332,13 +2343,13 @@ if "prediction" in st.session_state:
         story.append(
             Paragraph(
                 "Estimated House Price",
-                heading_style
+                title_style
             )
         )
 
         story.append(
             Paragraph(
-                f"${prediction:,.2f}",
+                f"₹{prediction:,.2f}",
                 price_style
             )
         )
@@ -2356,7 +2367,7 @@ if "prediction" in st.session_state:
 
         story.append(
             Paragraph(
-                "🏡 Property Details",
+                "Property Details",
                 heading_style
             )
         )
@@ -2384,6 +2395,12 @@ if "prediction" in st.session_state:
         property_table.setStyle(
             TableStyle([
                 (
+                    "FONTNAME",
+                    (0, 0),
+                    (-1, -1),
+                    "DejaVu"
+                ),
+                (
                     "BACKGROUND",
                     (0, 0),
                     (-1, 0),
@@ -2399,13 +2416,13 @@ if "prediction" in st.session_state:
                     "FONTNAME",
                     (0, 0),
                     (-1, 0),
-                    "Helvetica-Bold"
+                    "DejaVu-Bold"
                 ),
                 (
                     "FONTNAME",
                     (0, 1),
                     (0, -1),
-                    "Helvetica-Bold"
+                    "DejaVu-Bold"
                 ),
                 (
                     "BACKGROUND",
@@ -2467,6 +2484,12 @@ if "prediction" in st.session_state:
         model_table.setStyle(
             TableStyle([
                 (
+                    "FONTNAME",
+                    (0, 0),
+                    (-1, -1),
+                    "DejaVu"
+                ),
+                (
                     "BACKGROUND",
                     (0, 0),
                     (-1, 0),
@@ -2482,7 +2505,7 @@ if "prediction" in st.session_state:
                     "FONTNAME",
                     (0, 0),
                     (-1, 0),
-                    "Helvetica-Bold"
+                    "DejaVu-Bold"
                 ),
                 (
                     "GRID",
@@ -2515,7 +2538,7 @@ if "prediction" in st.session_state:
         story.append(
             KeepTogether([
                 Paragraph(
-                    "🤖 Model Information",
+                    "Model Information",
                     heading_style
                 ),
                 model_table
@@ -2598,13 +2621,13 @@ if "prediction" in st.session_state:
     with col1:
         st.metric(
             "MAE",
-            "$20,468"
+            "20,468"
         )
 
     with col2:
         st.metric(
             "RMSE",
-            "$52,347"
+            "52,347"
         )
 
     with col3:
@@ -2687,7 +2710,7 @@ summary of the property details.
 
             st.metric(
                 "📉 MAE",
-                "$20,468"
+                "20,468"
             )
 
 
@@ -2695,7 +2718,7 @@ summary of the property details.
 
             st.metric(
                 "📊 RMSE",
-                "$52,347"
+                "52,347"
             )
 
 
@@ -2740,7 +2763,7 @@ summary of the property details.
             display_df["Predicted Price"] = (
                 display_df["Predicted Price"]
                 .apply(
-                    lambda x: f"${x:,.2f}"
+                    lambda x: f"₹{x:,.2f}"
                 )
             )
 
@@ -2760,7 +2783,9 @@ summary of the property details.
             csv_data = display_df.to_csv(
                 index=False
             )
-
+            
+            # Fix Excel UTF-8 encoding
+            csv_data = ("\ufeff" + csv_data).encode("utf-8")
 
             st.download_button(
                 label="📥 Download History",
@@ -2890,22 +2915,22 @@ summary of the property details.
 
         st.metric(
             "Current Price",
-            f"${prediction:,.0f}"
+            f"₹{prediction:,.0f}"
         )
 
     with result_col2:
 
         st.metric(
             "What-If Price",
-            f"${what_if_prediction:,.0f}"
+            f"₹{what_if_prediction:,.0f}"
         )
 
     with result_col3:
 
         st.metric(
             "Price Difference",
-            f"${price_difference:,.0f}",
-            delta=f"${price_difference:,.0f}"
+            f"₹{price_difference:,.0f}",
+            delta=f"₹{price_difference:,.0f}"
         )
 
     # =====================================================
@@ -2942,7 +2967,7 @@ summary of the property details.
             .round(0)
             .astype(int)
             .astype(str)
-            .map(lambda value: f"${value}"),
+            .map(lambda value: f"₹{value}"),
         labels={
             "Price Type": "Scenario",
             "Amount": "Estimated Price"
@@ -3056,7 +3081,7 @@ summary of the property details.
     with insight_col7:
         st.metric(
             "💰 Price / Sq Ft",
-            f"${price_per_sqft:,.2f}"
+            f"₹{price_per_sqft:,.2f}"
         )
 
     with insight_col8:
