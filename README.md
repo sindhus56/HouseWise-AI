@@ -42,8 +42,8 @@ The application uses a trained regression model to estimate house sale prices.
 | Metric | Result |
 |---|---:|
 | R² Score | 0.6428 |
-| MAE | $20,468 |
-| RMSE | $52,347 |
+| MAE | 20,468 |
+| RMSE | 52,347 |
 | MSE | 2.74B |
 
 The R² score indicates that the model explains approximately 64.28% of the variation in house prices on the evaluation dataset.
